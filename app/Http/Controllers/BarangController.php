@@ -56,26 +56,47 @@ class BarangController extends Controller
     }
 
     /**
+     * @param \App\Models\Barang
+     * @return \Illuminate\Contracts\View\View
+     * 
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Barang $barang)
     {
-        //
+        return view('barang.edit', compact('barang'));
     }
 
     /**
+     * @param \App\Models\Barang
+     * @return \Illuminate\Http\RedirectResponse
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Barang $barang)
     {
-        //
+        $request->validate([
+            'nama_barang' => ['required', 'string', 'max:255'],
+            'deskripsi' => ['required', 'string', 'max:255'],
+            'kategori' => ['required', 'string', 'max:255'],
+            'stok' => ['required', 'integer']
+        ]);
+        Barang::where('id_barang', $barang->id_barang)
+            ->update([
+                'nama_barang' => $request->nama_barang,
+                'deskripsi' => $request->deskripsi,
+                'kategori' => $request->kategori,
+                'stok' => $request->stok,
+            ]);
+        return redirect()->route('barang.index')->with('status', 'Barang Berhasil Di Edit!');
     }
 
     /**
+     * @param \App\Models\Barang
+     * @return \Illuminate\Http\RedirectResponse
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Barang $barang)
     {
-        //
+        Barang::destroy($barang->id_barang);
+        return redirect()->route('barang.index')->with('status', 'Barang Berhasil Dihapus!');
     }
 }
