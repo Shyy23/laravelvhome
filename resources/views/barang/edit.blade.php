@@ -34,20 +34,13 @@
                         </div>
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <select class="form-control @error('kategori') is-invalid @enderror" id="kategori"
-                                name="kategori">
-                                <option value="Elektronik" {{ $barang->kategori == 'Elektronik' ? 'selected' : '' }}>
-                                    Elektronik</option>
-                                <option value="Furnitur" {{ $barang->kategori == 'Furnitur' ? 'selected' : '' }}>Furnitur
-                                </option>
-                                <option value="Pakaian" {{ $barang->kategori == 'Pakaian' ? 'selected' : '' }}>Pakaian
-                                </option>
-                                <option value="Alat Tulis" {{ $barang->kategori == 'Alat Tulis' ? 'selected' : '' }}>Alat
-                                    Tulis</option>
-                                <option value="Peralatan" {{ $barang->kategori == 'Peralatan' ? 'selected' : '' }}>
-                                    Peralatan
-                                </option>
-                                <option value="Peralatan Jaringan" {{ $barang->kategori == 'Peralatan Jaringan' ? 'selected' : '' }}>Peralatan Jaringan</option>
+                            <select class="form-control @error('kategori') is-invalid @enderror" id="kategori" name="kategori">
+                                @foreach($kategoris as $kategori)
+                                    <option value="{{ $kategori->id_kategori }}" 
+                                            {{ $barang->id_kategori == $kategori->id_kategori ? 'selected' : '' }}>
+                                        {{ $kategori->nama_kategori }}
+                                    </option>
+                                @endforeach
                             </select>
 
                             @error('kategori')

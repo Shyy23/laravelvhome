@@ -29,7 +29,7 @@
         <th scope="row">{{ $loop->iteration }}</th>
         <td>{{ $b->nama_barang }}</td>
         <td>{{ $b->deskripsi }}</td>
-        <td>{{ $b->kategori }}</td>
+        <td>{{ $b->nama_kategori }}</td>
         <td>{{ $b->stok }}</td>
         <td>
           <a href="{{route('barang.edit', $b->id_barang)}}" class="btn btn-sm btn-success">

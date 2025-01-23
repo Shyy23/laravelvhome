@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class BarangController extends Controller
@@ -12,7 +13,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = DB::table('barang')->get();
+        $barang = DB::table('vbarang')->get();
         return view('barang.index', compact('barang'));
     }
 
@@ -21,7 +22,8 @@ class BarangController extends Controller
      */
     public function create()
     {
-        return view('barang.create');
+        $kategoriList = Kategori::all();
+        return view('barang.create', compact('kategoriList'));
     }
 
     /**
@@ -32,14 +34,14 @@ class BarangController extends Controller
         $request->validate([
             'nama_barang' => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string', 'max:255'],
-            'kategori' => ['required', 'string', 'max:255'],
+            'kategori' => ['required', 'integer', 'max:11'],
             'stok' => ['required', 'integer']
         ]);
 
         $barang = new Barang;
         $barang->nama_barang = $request->nama_barang;
         $barang->deskripsi = $request->deskripsi;
-        $barang->kategori = $request->kategori;
+        $barang->id_kategori = $request->kategori;
         $barang->stok = $request->stok;
 
         $barang->save();
@@ -63,7 +65,10 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        return view('barang.edit', compact('barang'));
+        // Ambil semua kategori
+        $kategoris = Kategori::all();
+
+        return view('barang.edit', compact('barang', 'kategoris'));
     }
 
     /**
@@ -76,14 +81,14 @@ class BarangController extends Controller
         $request->validate([
             'nama_barang' => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string', 'max:255'],
-            'kategori' => ['required', 'string', 'max:255'],
+            'kategori' => ['required', 'int', 'max:11'],
             'stok' => ['required', 'integer']
         ]);
         Barang::where('id_barang', $barang->id_barang)
             ->update([
                 'nama_barang' => $request->nama_barang,
                 'deskripsi' => $request->deskripsi,
-                'kategori' => $request->kategori,
+                'id_kategori' => $request->kategori,
                 'stok' => $request->stok,
             ]);
         return redirect()->route('barang.index')->with('status', 'Barang Berhasil Di Edit!');

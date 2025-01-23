@@ -35,17 +35,11 @@
                             <label for="kategori">Kategori</label>
                             <select class="form-control @error('kategori') is-invalid @enderror" id="kategori"
                                 name="kategori">
-                                <option value="Elektronik" {{ old('kategori') == 'Elektronik' ? 'selected' : '' }}>
-                                    Elektronik</option>
-                                <option value="Furnitur" {{ old('kategori') == 'Furnitur' ? 'selected' : '' }}>Furnitur
-                                </option>
-                                <option value="Pakaian" {{ old('kategori') == 'Pakaian' ? 'selected' : '' }}>Pakaian
-                                </option>
-                                <option value="Alat Tulis" {{ old('kategori') == 'Alat Tulis' ? 'selected' : '' }}>Alat
-                                    Tulis</option>
-                                <option value="Peralatan" {{ old('kategori') == 'Peralatan' ? 'selected' : '' }}>Peralatan
-                                </option>
-                                <option value="Peralatan Jaringan" {{ old('kategori') == 'Peralatan Jaringan' ? 'selected' : '' }}>Peralatan Jaringan</option>
+                                @foreach($kategoriList as $kategoriItem)
+                                    <option value="{{ $kategoriItem->id_kategori }}" {{ old('kategori') == $kategoriItem->id_kategori ? 'selected' : '' }}>
+                                        {{ $kategoriItem->nama_kategori }}
+                                    </option>
+                                @endforeach
                             </select>
 
                             @error('kategori')
